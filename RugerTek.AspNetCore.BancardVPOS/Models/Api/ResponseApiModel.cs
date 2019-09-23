@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    internal class ResponseApiModel
+    public class ResponseApiModel
     {
         [JsonProperty("status")]
         public string Status { get; set; }

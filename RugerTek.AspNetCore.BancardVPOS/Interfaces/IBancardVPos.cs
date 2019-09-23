@@ -1,4 +1,7 @@
+using System.Threading;
 using System.Threading.Tasks;
+using RugerTek.AspNetCore.BancardVPOS.Models;
+using RugerTek.AspNetCore.BancardVPOS.Models.Api;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
 {
@@ -6,7 +9,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
     {
         // Pago ocasional
         // Inicia el proceso de pago
-        Task SingleBuy();
+        Task<BancardResponse> SingleBuyAsync(BancardSingleBuyRequest request, CancellationToken cancellationToken = default);
 
         // Pago con token
         // Inicia el proceso de catastro de una tarjeta.

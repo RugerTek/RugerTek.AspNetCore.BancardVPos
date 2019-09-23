@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Microsoft.Extensions.DependencyInjection;
+using RugerTek.AspNetCore.BancardVPOS.Configurations;
 using RugerTek.AspNetCore.BancardVPOS.HttpClients;
 using RugerTek.AspNetCore.BancardVPOS.Interfaces;
 using RugerTek.AspNetCore.BancardVPOS.Services;
@@ -9,8 +10,9 @@ namespace RugerTek.AspNetCore.BancardVPOS
 {
     public static class RugerTekBancardExtensions
     {
-        public static IServiceCollection AddBancardSrevices(IServiceCollection serviceCollection, bool staging = false)
+        public static IServiceCollection AddBancardSrevices(IServiceCollection serviceCollection, Action<BancardVPosConfiguration> config, bool staging = false)
         {
+            serviceCollection.Configure(config);
             serviceCollection.AddTransient<IBancardVPos, BancardVPosService>();
             serviceCollection.AddHttpClient<VPosHttpClient>(httpClient =>
                 {

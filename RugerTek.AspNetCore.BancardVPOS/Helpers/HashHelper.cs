@@ -6,12 +6,12 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
     {
         public static string SingleBuy(string privateKey, string shopProcessId, decimal amount, string currency)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}{amount}{currency}");
+            return CreateMd5($"{privateKey}{shopProcessId}{amount:C2}{currency}");
         }
 
         public static string SingleBuyConfirm(string privateKey, string shopProcessId, decimal amount, string currency)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}confirm{amount}{currency}");
+            return CreateMd5($"{privateKey}{shopProcessId}confirm{amount:C2}{currency}");
         }
 
         public static string SingleBuyGetConfirmation(string privateKey, string shopProcessId)
@@ -34,10 +34,9 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
             return CreateMd5($"{privateKey}{userId}request_user_cards");
         }
 
-        public static string Charge(string privateKey, string shopProcessId, decimal amount, string currency,
-            string aliasToken)
+        public static string Charge(string privateKey, string shopProcessId, decimal amount, string currency, string aliasToken)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}charge{amount}{currency}{aliasToken}");
+            return CreateMd5($"{privateKey}{shopProcessId}charge{amount:C2}{currency}{aliasToken}");
         }
 
         public static string Delete(string privateKey, string userId, string cardToken)
@@ -57,7 +56,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
                 var sb = new StringBuilder();
                 foreach (var t in hashBytes)
                 {
-                    sb.Append(t.ToString("X2"));
+                    sb.Append(t.ToString("x2"));
                 }
                 return sb.ToString();
             }
