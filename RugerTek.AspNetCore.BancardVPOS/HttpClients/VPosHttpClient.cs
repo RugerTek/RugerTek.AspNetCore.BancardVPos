@@ -21,7 +21,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -30,7 +30,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/cards/new")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -39,7 +39,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"/vpos/api/0.3/users/{userId}/cards")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -49,7 +49,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/charge")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -59,7 +59,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, $"/vpos/api/0.3/users/{userId}/cards")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -69,7 +69,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy/rollback")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
@@ -79,7 +79,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy/confirmations")
             {
-                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body))
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }

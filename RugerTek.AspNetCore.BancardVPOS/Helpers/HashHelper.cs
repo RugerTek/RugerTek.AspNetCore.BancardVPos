@@ -6,12 +6,12 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
     {
         public static string SingleBuy(string privateKey, string shopProcessId, decimal amount, string currency)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}{amount:C2}{currency}");
+            return CreateMd5($"{privateKey}{shopProcessId}{amount:F2}{currency}");
         }
 
         public static string SingleBuyConfirm(string privateKey, string shopProcessId, decimal amount, string currency)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}confirm{amount:C2}{currency}");
+            return CreateMd5($"{privateKey}{shopProcessId}confirm{amount:F2}{currency}");
         }
 
         public static string SingleBuyGetConfirmation(string privateKey, string shopProcessId)
@@ -36,7 +36,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
 
         public static string Charge(string privateKey, string shopProcessId, decimal amount, string currency, string aliasToken)
         {
-            return CreateMd5($"{privateKey}{shopProcessId}charge{amount:C2}{currency}{aliasToken}");
+            return CreateMd5($"{privateKey}{shopProcessId}charge{amount:F2}{currency}{aliasToken}");
         }
 
         public static string Delete(string privateKey, int userId, string cardToken)

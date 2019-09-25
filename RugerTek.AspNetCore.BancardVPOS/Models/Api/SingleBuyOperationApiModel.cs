@@ -11,7 +11,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
         [JsonPropertyName("currency")]
         public string Currency { get; set; } = "";
         [JsonPropertyName("amount")]
-        public string Amount { get; set; } = "";
+        public string Amount { get; set; }
         [JsonPropertyName("additional_data")]
         public string AdditionalData { get; set; } = "";
         [JsonPropertyName("return_url")]

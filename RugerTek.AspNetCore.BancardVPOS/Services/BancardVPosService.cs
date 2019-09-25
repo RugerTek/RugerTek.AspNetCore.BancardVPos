@@ -36,7 +36,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 {
                     Token = HashHelper.SingleBuy(_configuration.PublicKey, request.ShopProcessId, request.Amount, request.Currency.Value),
                     Currency = request.Currency.Value,
-                    Amount = request.Amount.ToString("C2"),
+                    Amount = request.Amount.ToString("F2"),
                     ShopProcessId = request.ShopProcessId,
                     AdditionalData = request.AdditionalData,
                     ReturnUrl = request.ReturnUrl,

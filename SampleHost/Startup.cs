@@ -27,8 +27,8 @@ namespace SampleHost
             services.AddControllersWithViews();
             services.AddBancardServices(config =>
             {
-                config.PublicKey = "";
-                config.PrivateKey = "";
+                config.PublicKey = "dj25by6NgkWZ74pntyXuqU2O1rMz49lz";
+                config.PrivateKey = "$jN0yb,V+Yz(II8sb9AAFqxk7T5J6sJhM8nDJ22N";
             }, true);
         }
 
