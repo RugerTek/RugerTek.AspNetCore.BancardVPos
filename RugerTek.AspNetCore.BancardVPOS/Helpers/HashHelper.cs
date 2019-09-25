@@ -24,12 +24,12 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
             return CreateMd5($"{privateKey}{shopProcessId}rollback0.00");
         }
 
-        public static string CardsNew(string privateKey, string cardId, string userId)
+        public static string CardsNew(string privateKey, int cardId, int userId)
         {
             return CreateMd5($"{privateKey}{cardId}{userId}request_user_cards");
         }
 
-        public static string UsersCards(string privateKey, string userId)
+        public static string UsersCards(string privateKey, int userId)
         {
             return CreateMd5($"{privateKey}{userId}request_user_cards");
         }
@@ -39,7 +39,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
             return CreateMd5($"{privateKey}{shopProcessId}charge{amount:C2}{currency}{aliasToken}");
         }
 
-        public static string Delete(string privateKey, string userId, string cardToken)
+        public static string Delete(string privateKey, int userId, string cardToken)
         {
             return CreateMd5($"{privateKey}delete_card{userId}{cardToken}");
         }
@@ -47,19 +47,17 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
         private static string CreateMd5(string input)
         {
             // Use input string to calculate MD5 hash
-            using (var md5 = System.Security.Cryptography.MD5.Create())
-            {
-                var inputBytes = Encoding.ASCII.GetBytes(input);
-                var hashBytes = md5.ComputeHash(inputBytes);
+            using var md5 = System.Security.Cryptography.MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hashBytes = md5.ComputeHash(inputBytes);
 
-                // Convert the byte array to hexadecimal string
-                var sb = new StringBuilder();
-                foreach (var t in hashBytes)
-                {
-                    sb.Append(t.ToString("x2"));
-                }
-                return sb.ToString();
+            // Convert the byte array to hexadecimal string
+            var sb = new StringBuilder();
+            foreach (var t in hashBytes)
+            {
+                sb.Append(t.ToString("x2"));
             }
+            return sb.ToString();
         }
     }
 }

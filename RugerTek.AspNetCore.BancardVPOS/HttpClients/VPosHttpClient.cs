@@ -1,13 +1,14 @@
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using RugerTek.AspNetCore.BancardVPOS.Models.Api;
 
 namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
 {
-    public class VPosHttpClient
+    internal class VPosHttpClient : IVPosHttpClient
     {
         private readonly HttpClient _httpClient;
 
@@ -16,69 +17,69 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
             _httpClient = httpClient;
         }
 
-        public Task<HttpResponseMessage> SingleBuy(BancardRequestApiModel<SingleBuyOperationApiModel> body, CancellationToken cancellationToken = default)
+        public Task<HttpResponseMessage> SingleBuy(RequestApiModel<SingleBuyOperationApiModel> body, CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
 
-        public Task<HttpResponseMessage> CardsNew(BancardRequestApiModel<CardsNewOperationApiModel> body, CancellationToken cancellationToken = default)
+        public Task<HttpResponseMessage> CardsNew(RequestApiModel<CardsNewOperationApiModel> body, CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/cards/new")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
 
-        public Task<HttpResponseMessage> UsersCards(int userId, BancardRequestApiModel<UsersCardsOperationApiModel> body, CancellationToken cancellationToken = default)
+        public Task<HttpResponseMessage> UsersCards(int userId, RequestApiModel<UsersCardsOperationApiModel> body, CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"/vpos/api/0.3/users/{userId}/cards")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
 
-        public Task<HttpResponseMessage> Charge(BancardRequestApiModel<ChargeOperationApiModel> body,
+        public Task<HttpResponseMessage> Charge(RequestApiModel<ChargeOperationApiModel> body,
             CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/charge")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
 
-        public Task<HttpResponseMessage> DeleteCard(string userId, BancardRequestApiModel<DeleteOperationApiModel> body,
+        public Task<HttpResponseMessage> DeleteCard(int userId, RequestApiModel<DeleteOperationApiModel> body,
             CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, $"/vpos/api/0.3/users/{userId}/cards")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
 
-        public Task<HttpResponseMessage> SingleBuyRollback(BancardRequestApiModel<SingleBuyRollbackApiModel> body,
+        public Task<HttpResponseMessage> SingleBuyRollback(RequestApiModel<SingleBuyRollbackApiModel> body,
             CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy/rollback")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
         
-        public Task<HttpResponseMessage> SingleBuyConfirm(BancardRequestApiModel<SingleBuyConfirmationApiModel> body,
+        public Task<HttpResponseMessage> SingleBuyConfirm(RequestApiModel<SingleBuyConfirmationApiModel> body,
             CancellationToken cancellationToken = default)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy/confirmations")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8)
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8)
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }

@@ -1,21 +1,20 @@
-using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class CardsNewOperationApiModel
+    internal class CardsNewOperationApiModel
     {
-        [JsonProperty("token")]
-        public string Token { get; set; }
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
-        [JsonProperty("user_id")]
-        public string UserId { get; set; }
-        [JsonProperty("user_cell_phone")]
-        public string UserCellPhone { get; set; }
-        [JsonProperty("user_mail")]
-        public string UserMail { get; set; }
-        [JsonProperty("return_url")]
-        public string ReturnUrl { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; } = "";
+        [JsonPropertyName("card_id")]
+        public int CardId { get; set; }
+        [JsonPropertyName("user_id")]
+        public int UserId { get; set; }
+        [JsonPropertyName("user_cell_phone")]
+        public string UserCellPhone { get; set; } = "";
+        [JsonPropertyName("user_mail")]
+        public string UserMail { get; set; } = "";
+        [JsonPropertyName("return_url")]
+        public string ReturnUrl { get; set; } = "";
     }
 }

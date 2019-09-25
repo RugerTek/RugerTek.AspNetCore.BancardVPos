@@ -13,24 +13,24 @@ namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
 
         // Pago con token
         // Inicia el proceso de catastro de una tarjeta.
-        Task CardsNew();
+        Task<BancardResponse> CardsNew(BancardCardsNewRequest request, CancellationToken cancellationToken = default);
         
         // Operación que permite listar las tarjetas catastradas por un usuario
-        Task UsersCard();
+        Task<BancardUserCardsResponse> UsersCard(int userId, CancellationToken cancellationToken = default);
         
         // Operacion que permite el pago con un token
-        Task Charge();
+        Task<BancardSimpleResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default);
         
         // Operacion que permite eliminar una tarjeta catastrada
-        Task Delete();
+        Task<BancardSimpleResponse> Delete(int userId, string aliasToken, CancellationToken cancellationToken = default);
         
         // Servicios que se utilizan tanto para pago ocasional como para pago con token.
         // Operación que permite cancelar el pago (anónimo o con token).
-        Task SingleBuyRollback();
+        Task<BancardMessageResponse> SingleBuyRollback(string shopProcessId, CancellationToken cancellationToken = default);
         // Operación para consulta, si un pago (anónimo o con token) fue confirmado o no
-        Task GetSingleBuyConfirmation();
+        Task<BancardConfirmationResponse> GetSingleBuyConfirmation(string shopProcessId, CancellationToken cancellationToken = default);
 
-        // Operación que será invocada por VPOS para confirmar un pago (anónimo o con token).
-        Task SingleBuyConfirm();
+        // Valida el token de la operacoin Sigle Buy Confirm invocada por Bancard
+        Task<bool> ValidateSingleBuyConfirmToken(BancardSingleBuyConfirm request);
     }
 }

@@ -10,11 +10,11 @@ namespace RugerTek.AspNetCore.BancardVPOS
 {
     public static class RugerTekBancardExtensions
     {
-        public static IServiceCollection AddBancardSrevices(IServiceCollection serviceCollection, Action<BancardVPosConfiguration> config, bool staging = false)
+        public static IServiceCollection AddBancardServices(this IServiceCollection serviceCollection, Action<BancardVPosConfiguration> config, bool staging = false)
         {
             serviceCollection.Configure(config);
             serviceCollection.AddTransient<IBancardVPos, BancardVPosService>();
-            serviceCollection.AddHttpClient<VPosHttpClient>(httpClient =>
+            serviceCollection.AddHttpClient<IVPosHttpClient, VPosHttpClient>(httpClient =>
                 {
                     httpClient.BaseAddress = !staging
                         ? new Uri("https://vpos.infonet.com.py")

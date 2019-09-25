@@ -1,12 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class ResponseApiModel
+    internal class ResponseApiModel : SimpleResponseApiModel
     {
-        [JsonProperty("status")]
-        public string Status { get; set; }
-        [JsonProperty("process_id")]
-        public string ProcessId { get; set; }
+        [JsonPropertyName("process_id")]
+        public string ProcessId { get; set; } = "";
     }
 }

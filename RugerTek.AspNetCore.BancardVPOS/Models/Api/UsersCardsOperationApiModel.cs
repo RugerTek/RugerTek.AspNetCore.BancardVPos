@@ -1,12 +1,10 @@
-using System.Security.Cryptography;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class UsersCardsOperationApiModel
+    internal class UsersCardsOperationApiModel
     {
-        [JsonProperty("token")]
-        public string Token { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; } = "";
     }
 }

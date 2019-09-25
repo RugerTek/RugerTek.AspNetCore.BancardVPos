@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class SingleBuyRollbackApiModel
+    internal class SingleBuyRollbackApiModel
     {
-        [JsonProperty("token")]
-        public string Token { get; set; }
-        [JsonProperty("shop_process_id")]
-        public string ShopProcessId { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; } = "";
+        [JsonPropertyName("shop_process_id")]
+        public string ShopProcessId { get; set; } = "";
     }
 }
