@@ -6,14 +6,17 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
     {
         [JsonPropertyName("token")]
         public string Token { get; set; } = "";
+        [JsonPropertyName("description")]
+        public string Description { get; set; } = "";
         [JsonPropertyName("shop_process_id")]
-        public string ShopProcessId { get; set; } = "";
+        public int ShopProcessId { get; set; }
         [JsonPropertyName("currency")]
         public string Currency { get; set; } = "";
-        [JsonPropertyName("amount")]
-        public string Amount { get; set; }
+
+        [JsonPropertyName("amount")] 
+        public string Amount { get; set; } = "";
         [JsonPropertyName("additional_data")]
-        public string AdditionalData { get; set; } = "";
+        public string? AdditionalData { get; set; }
         [JsonPropertyName("return_url")]
         public string ReturnUrl { get; set; } = "";
         [JsonPropertyName("cancel_url")]

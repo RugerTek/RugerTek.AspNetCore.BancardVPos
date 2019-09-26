@@ -4,11 +4,11 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
     internal class MessageApiModel
     {
-        [JsonPropertyName("Key")]
+        [JsonPropertyName("key")]
         public string Key { get; set; } = "";
-        [JsonPropertyName("Level")]
+        [JsonPropertyName("level")]
         public string Level { get; set; } = "";
-        [JsonPropertyName("Dsc")]
+        [JsonPropertyName("dsc")]
         public string Dsc { get; set; } = "";
     }
 }

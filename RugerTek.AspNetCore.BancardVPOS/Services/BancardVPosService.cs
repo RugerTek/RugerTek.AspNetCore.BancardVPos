@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,24 +33,19 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 PublicKey = _configuration.PublicKey,
                 Operation = new SingleBuyOperationApiModel
                 {
-                    Token = HashHelper.SingleBuy(_configuration.PublicKey, request.ShopProcessId, request.Amount, request.Currency.Value),
+                    Token = HashHelper.SingleBuy(_configuration.PrivateKey, request.ShopProcessId, request.Amount, request.Currency.Value),
                     Currency = request.Currency.Value,
                     Amount = request.Amount.ToString("F2"),
                     ShopProcessId = request.ShopProcessId,
                     AdditionalData = request.AdditionalData,
                     ReturnUrl = request.ReturnUrl,
-                    CancelUrl = request.CancelUrl
+                    CancelUrl = request.CancelUrl,
+                    Description = request.Description
                 }
             };
             var response = await _httpClient.SingleBuy(model, cancellationToken);
             var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
-            var returnModel = new BancardResponse
-            {
-                IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody.Status,
-                ProcessId = responseBody.ProcessId
-            };
-            return returnModel;
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
         public async Task<BancardResponse> CardsNew(BancardCardsNewRequest request, CancellationToken cancellationToken = default)
@@ -71,13 +65,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             };
             var response = await _httpClient.CardsNew(model, cancellationToken);
             var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
-            var returnModel = new BancardResponse
-            {
-                IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody.Status,
-                ProcessId = responseBody.ProcessId
-            };
-            return returnModel;
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
         public async Task<BancardUserCardsResponse> UsersCard(int userId, CancellationToken cancellationToken = default)
@@ -90,11 +78,11 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                     Token = HashHelper.UsersCards(_configuration.PrivateKey, userId)
                 }
             };
-            var respose = await _httpClient.UsersCards(userId, model, cancellationToken);
-            var responseBody = await respose.Content.ReadAsAsync<UserCardsResponseApiModel>(cancellationToken);
+            var response = await _httpClient.UsersCards(userId, model, cancellationToken);
+            var responseBody = await response.Content.ReadAsAsync<UserCardsResponseApiModel>(cancellationToken);
             var returnModel = new BancardUserCardsResponse
             {
-                IsSuccessStatusCode = respose.IsSuccessStatusCode,
+                IsSuccessStatusCode = response.IsSuccessStatusCode,
                 Status = responseBody.Status,
                 Cards = responseBody.Cards.Select(x => new BancardCard
                 {
@@ -104,12 +92,18 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                     CardType = x.CardType,
                     ExpirationDate = x.ExpirationDate,
                     CardMaskedNumber = x.CardMaskedNumber
+                }).ToList(),
+                Messages = responseBody.Messages.Select(x => new BancardMessage
+                {
+                    Key = x.Key,
+                    Level = x.Level,
+                    Description = x.Dsc
                 }).ToList()
             };
             return returnModel;
         }
 
-        public async Task<BancardSimpleResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
+        public async Task<BancardResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<ChargeOperationApiModel>
             {
@@ -117,7 +111,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 Operation = new ChargeOperationApiModel
                 {
                     Token = HashHelper.Charge(_configuration.PrivateKey, request.ShopProcessId, request.Amount, request.Currency.Value, request.AliasToken),
-                    Amount = request.Amount,
+                    Amount = request.Amount.ToString("F2"),
                     Currency = request.Currency.Value,
                     Description = request.Description,
                     AdditionalData = request.AdditionalData,
@@ -127,14 +121,11 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }
             };
             var response = await _httpClient.Charge(model, cancellationToken);
-            return new BancardSimpleResponse
-            {
-                IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = response.IsSuccessStatusCode ? "success" : "error"
-            };
+            var responseBody = await response.Content.ReadAsAsync<UserCardsResponseApiModel>(cancellationToken);
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardSimpleResponse> Delete(int userId, string aliasToken, CancellationToken cancellationToken = default)
+        public async Task<BancardResponse> Delete(int userId, string aliasToken, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<DeleteOperationApiModel>
             {
@@ -146,15 +137,11 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }
             };
             var response = await _httpClient.DeleteCard(userId, model, cancellationToken);
-            var responseBody = await response.Content.ReadAsAsync<SimpleResponseApiModel>(cancellationToken);
-            return new BancardSimpleResponse
-            {
-                IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody.Status
-            };
+            var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardMessageResponse> SingleBuyRollback(string shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardResponse> SingleBuyRollback(int shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyRollbackApiModel>
             {
@@ -166,22 +153,11 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }
             };
             var response = await _httpClient.SingleBuyRollback(model, cancellationToken);
-            var responseBody = await response.Content.ReadAsAsync<MessageResponseApiModel>(cancellationToken);
-            var returnModel = new BancardMessageResponse
-            {
-                IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody.Status,
-                Messages = responseBody.Messages.Select(x => new BancardMessage
-                {
-                    Key = x?.Key ?? "",
-                    Level = x?.Level ?? "",
-                    Description = x?.Dsc ?? ""
-                }).ToList()
-            };
-            return returnModel;
+            var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(string shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(int shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyConfirmationApiModel>
             {
@@ -235,6 +211,23 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return Task.Run(() => 
                 request.Operation.Token == HashHelper.SingleBuyConfirm(_configuration.PrivateKey, 
                     request.Operation.ShopProcessId, request.Operation.Amount, request.Operation.Currency));
+        }
+
+        private static BancardResponse MapResponse(ResponseApiModel apiModel, bool isSuccessStatusCode)
+        {
+            var model = new BancardResponse
+            {
+                IsSuccessStatusCode = isSuccessStatusCode,
+                Status = apiModel.Status,
+                Messages = apiModel.Messages.Select(x => new BancardMessage
+                {
+                    Key = x.Level,
+                    Level = x.Level,
+                    Description = x.Dsc
+                }).ToList(),
+                ProcessId = apiModel.ProcessId
+            };
+            return model;
         }
     }
 }

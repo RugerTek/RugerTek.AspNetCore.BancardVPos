@@ -3,10 +3,10 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models
     public class BancardSingleBuyConfirmOperation
     {
         public string Token { get; set; } = "";
-        public string ShopProcessId { get; set; } = "";
+        public int ShopProcessId { get; set; }
         public string Response { get; set; } = "";
         public string ResponseDetails { get; set; } = "";
-        public decimal Amount { get; set; }
+        public string Amount { get; set; }
         public string Currency { get; set; } = "";
         public string AuthorizationNumber { get; set; } = "";
         public string ResponseCode { get; set; } = "";
