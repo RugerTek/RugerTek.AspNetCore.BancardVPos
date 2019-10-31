@@ -98,9 +98,15 @@ public async Task<ActionResult<BancardSingleBuyConfirmResponse>> Bancard([FromBo
 ```
 
 ## Notas
-Esta libreria solo implementa el API de bancard
-Mirar los siguientes links:
+Esta libreria solo implementa el API de bancard. No implementa nada para el UI, esto queda a cargo del desarrollador.
+
+## Mirar los siguientes links:
 
 https://github.com/Bancard/bancard-checkout-js
 
 https://comercios.bancard.com.py/documents/eCommerce_bancard_compra_simple_version_1.9.pdf
+
+## Legal
+RugerTek S.A no se hace cargo de nada! :) Use a su propio riesgo.
+
+MIT License
