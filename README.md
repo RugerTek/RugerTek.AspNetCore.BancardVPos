@@ -6,6 +6,9 @@
 
 Soporte para Newtonsoft.Json y System.Text.Json
 
+
+## Docs
+
 En el metodo ConfigureServices en el Startup
 
 ``` csharp
