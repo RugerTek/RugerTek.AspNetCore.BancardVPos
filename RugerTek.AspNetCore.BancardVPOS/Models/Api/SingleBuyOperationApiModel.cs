@@ -1,25 +1,26 @@
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
     internal class SingleBuyOperationApiModel
     {
-        [JsonPropertyName("token")]
+        [JsonPropertyName("token"), JsonProperty("token")]
         public string Token { get; set; } = "";
-        [JsonPropertyName("description")]
+        [JsonPropertyName("description"), JsonProperty("description")]
         public string Description { get; set; } = "";
-        [JsonPropertyName("shop_process_id")]
+        [JsonPropertyName("shop_process_id"), JsonProperty("shop_process_id")]
         public int ShopProcessId { get; set; }
-        [JsonPropertyName("currency")]
+        [JsonPropertyName("shop_process_id"), JsonProperty("shop_process_id")]
         public string Currency { get; set; } = "";
 
-        [JsonPropertyName("amount")] 
-        public string Amount { get; set; } = "";
-        [JsonPropertyName("additional_data")]
+        [JsonPropertyName("amount"), JsonProperty("amount")] 
+        public decimal Amount { get; set; }
+        [JsonPropertyName("additional_data"), JsonProperty("additional_data")]
         public string? AdditionalData { get; set; }
-        [JsonPropertyName("return_url")]
+        [JsonPropertyName("return_url"), JsonProperty("return_url")]
         public string ReturnUrl { get; set; } = "";
-        [JsonPropertyName("cancel_url")]
+        [JsonPropertyName("cancel_url"), JsonProperty("cancel_url")]
         public string CancelUrl { get; set; } = "";
     }
 }

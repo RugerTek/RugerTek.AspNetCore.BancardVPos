@@ -1,31 +1,32 @@
 
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
     internal class ConfirmationInfoApiModel
     {
-        [JsonPropertyName("token")]
+        [JsonPropertyName("token"), JsonProperty("token")]
         public string Token { get; set; } = "";
-        [JsonPropertyName("shop_process_id")]
+        [JsonPropertyName("shop_process_id"), JsonProperty("shop_process_id")]
         public string ShopProcessId { get; set; } = "";
-        [JsonPropertyName("response")]
+        [JsonPropertyName("response"), JsonProperty("response")]
         public string Response { get; set; } = "";
-        [JsonPropertyName("response_details")]
+        [JsonPropertyName("response_details"), JsonProperty("response_details")]
         public string ResponseDetails { get; set; } = "";
-        [JsonPropertyName("amount")]
+        [JsonPropertyName("amount"), JsonProperty("amount")]
         public decimal Amount { get; set; }
-        [JsonPropertyName("currency")]
+        [JsonPropertyName("currency"), JsonProperty("currency")]
         public string Currency { get; set; } = "";
-        [JsonPropertyName("authorization_number")]
+        [JsonPropertyName("authorization_number"), JsonProperty("authorization_number")]
         public string AuthorizationNumber { get; set; } = "";
-        [JsonPropertyName("response_code")]
+        [JsonPropertyName("response_code"), JsonProperty("response_code")]
         public string ResponseCode { get; set; } = "";
-        [JsonPropertyName("response_description")]
+        [JsonPropertyName("response_description"), JsonProperty("response_description")]
         public string ResponseDescription { get; set; } = "";
-        [JsonPropertyName("extented_response_description")]
+        [JsonPropertyName("extented_response_description"), JsonProperty("extented_response_description")]
         public string ExtentedResponseDescription { get; set; } = "";
-        [JsonPropertyName("security_information")]
+        [JsonPropertyName("security_information"), JsonProperty("security_information")]
         public SecurityInformationApiModel SecurityInformation { get; set; } = new SecurityInformationApiModel();
     }
 }
