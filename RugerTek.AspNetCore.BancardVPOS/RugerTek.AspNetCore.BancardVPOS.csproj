@@ -12,6 +12,10 @@
         <RepositoryUrl>https://github.com/andoni97/RugerTek.AspNetCore.BancardVPos</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>bancard vpos vpos2.0 paraguay py</PackageTags>
+        <AssemblyVersion>1.0.1.0</AssemblyVersion>
+        <FileVersion>1.0.1.0</FileVersion>
+        <Version>1.0.1</Version>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
