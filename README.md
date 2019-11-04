@@ -1,5 +1,11 @@
 # RugerTek.AspNetCore.BancardVPos
 
+## Change Log
+
+### 1.01
+
+Soporte para Newtonsoft.Json y System.Text.Json
+
 En el metodo ConfigureServices en el Startup
 
 ``` csharp
