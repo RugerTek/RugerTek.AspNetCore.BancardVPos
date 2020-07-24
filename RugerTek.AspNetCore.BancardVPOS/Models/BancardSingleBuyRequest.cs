@@ -4,7 +4,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models
 {
     public class BancardSingleBuyRequest
     {
-        public int ShopProcessId { get; set; }
+        public string ShopProcessId { get; set; } = "";
         public BancardCurrency Currency { get; set; } = BancardCurrency.Guarani;
         public decimal Amount { get; set; }
         public string? AdditionalData { get; set; }

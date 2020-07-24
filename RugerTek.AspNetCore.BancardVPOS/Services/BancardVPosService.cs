@@ -103,7 +103,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return returnModel;
         }
 
-        public async Task<BancardResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
+        public async Task<BancardChargeResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<ChargeOperationApiModel>
             {
@@ -121,8 +121,30 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }
             };
             var response = await _httpClient.Charge(model, cancellationToken);
-            var responseBody = await response.Content.ReadAsAsync<UserCardsResponseApiModel>(cancellationToken);
-            return MapResponse(responseBody, response.IsSuccessStatusCode);
+            var responseBody = await response.Content.ReadAsAsync<ChargeResponseApiModel>(cancellationToken);
+            var chargeResponse = new BancardChargeResponse
+            {
+                Amount = responseBody.Operation.Amount,
+                Currency = responseBody.Operation.Amount,
+                Response = responseBody.Operation.Amount,
+                Token = responseBody.Operation.Amount,
+                AuthorizationNumber = responseBody.Operation.Amount,
+                ResponseCode = responseBody.Operation.Amount,
+                ResponseDescription = responseBody.Operation.Amount,
+                ResponseDetails = responseBody.Operation.Amount,
+                SecurityInformation = new BancardSecurityInformation
+                {
+                    Version = responseBody.Operation.SecurityInformation.Version,
+                    CardCountry = responseBody.Operation.SecurityInformation.CardCountry,
+                    CardSource = responseBody.Operation.SecurityInformation.CardSource,
+                    CustomerIp = responseBody.Operation.SecurityInformation.CustomerIp,
+                    RiskIndex = responseBody.Operation.SecurityInformation.RiskIndex,
+                },
+                TicketNumber = responseBody.Operation.Amount,
+                ExtendedResponseDescription = responseBody.Operation.ExtendedResponseDescription,
+                ShopProcessId = responseBody.Operation.ShopProcessId
+            };
+            return chargeResponse;
         }
 
         public async Task<BancardResponse> Delete(int userId, string aliasToken, CancellationToken cancellationToken = default)
@@ -141,7 +163,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardResponse> SingleBuyRollback(int shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardResponse> SingleBuyRollback(string shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyRollbackApiModel>
             {
@@ -157,7 +179,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(int shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(string shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyConfirmationApiModel>
             {
@@ -221,7 +243,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 Status = apiModel.Status,
                 Messages = apiModel.Messages.Select(x => new BancardMessage
                 {
-                    Key = x.Level,
+                    Key = x.Key,
                     Level = x.Level,
                     Description = x.Dsc
                 }).ToList(),
