@@ -19,16 +19,16 @@ namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
         Task<BancardUserCardsResponse> UsersCard(int userId, CancellationToken cancellationToken = default);
         
         // Operacion que permite el pago con un token
-        Task<BancardChargeResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default);
+        Task<BancardChargeResponse?> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default);
         
         // Operacion que permite eliminar una tarjeta catastrada
         Task<BancardResponse> Delete(int userId, string aliasToken, CancellationToken cancellationToken = default);
         
         // Servicios que se utilizan tanto para pago ocasional como para pago con token.
         // Operación que permite cancelar el pago (anónimo o con token).
-        Task<BancardResponse> SingleBuyRollback(string shopProcessId, CancellationToken cancellationToken = default);
+        Task<BancardResponse> SingleBuyRollback(int shopProcessId, CancellationToken cancellationToken = default);
         // Operación para consulta, si un pago (anónimo o con token) fue confirmado o no
-        Task<BancardConfirmationResponse> GetSingleBuyConfirmation(string shopProcessId, CancellationToken cancellationToken = default);
+        Task<BancardConfirmationResponse> GetSingleBuyConfirmation(int shopProcessId, CancellationToken cancellationToken = default);
 
         // Valida el token de la operacoin Sigle Buy Confirm invocada por Bancard
         Task<bool> ValidateSingleBuyConfirmToken(BancardSingleBuyConfirm request);

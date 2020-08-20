@@ -5,22 +5,22 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
 {
     public static class HashHelper
     {
-        public static string SingleBuy(string privateKey, string shopProcessId, decimal amount, string currency)
+        public static string SingleBuy(string privateKey, int shopProcessId, double amount, string currency)
         {
             return CreateMd5($"{privateKey}{shopProcessId}{amount:F2}{currency}");
         }
 
-        public static string SingleBuyConfirm(string privateKey, string shopProcessId, decimal amount, string currency)
+        public static string SingleBuyConfirm(string privateKey, int shopProcessId, double amount, string currency)
         {
             return CreateMd5($"{privateKey}{shopProcessId}confirm{amount}{currency}");
         }
 
-        public static string SingleBuyGetConfirmation(string privateKey, string shopProcessId)
+        public static string SingleBuyGetConfirmation(string privateKey, int shopProcessId)
         {
             return CreateMd5($"{privateKey}{shopProcessId}get_confirmation");
         }
 
-        public static string SingleBuyRollback(string privateKey, string shopProcessId)
+        public static string SingleBuyRollback(string privateKey, int shopProcessId)
         {
             return CreateMd5($"{privateKey}{shopProcessId}rollback0.00");
         }
@@ -35,7 +35,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
             return CreateMd5($"{privateKey}{userId}request_user_cards");
         }
 
-        public static string Charge(string privateKey, string shopProcessId, decimal amount, string currency, string aliasToken)
+        public static string Charge(string privateKey, int shopProcessId, double amount, string currency, string aliasToken)
         {
             return CreateMd5($"{privateKey}{shopProcessId}charge{amount:F2}{currency}{aliasToken}");
         }

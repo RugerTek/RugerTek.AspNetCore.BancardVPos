@@ -35,7 +35,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 {
                     Token = HashHelper.SingleBuy(_configuration.PrivateKey, request.ShopProcessId, request.Amount, request.Currency.Value),
                     Currency = request.Currency.Value,
-                    Amount = request.Amount,
+                    Amount = request.Amount.ToString("F2"),
                     ShopProcessId = request.ShopProcessId,
                     AdditionalData = request.AdditionalData,
                     ReturnUrl = request.ReturnUrl,
@@ -103,7 +103,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return returnModel;
         }
 
-        public async Task<BancardChargeResponse> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
+        public async Task<BancardChargeResponse?> Charge(BancardChargeRequest request, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<ChargeOperationApiModel>
             {
@@ -111,7 +111,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 Operation = new ChargeOperationApiModel
                 {
                     Token = HashHelper.Charge(_configuration.PrivateKey, request.ShopProcessId, request.Amount, request.Currency.Value, request.AliasToken),
-                    Amount = request.Amount,
+                    Amount = request.Amount.ToString("F2"),
                     Currency = request.Currency.Value,
                     Description = request.Description,
                     AdditionalData = request.AdditionalData,
@@ -121,28 +121,38 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }
             };
             var response = await _httpClient.Charge(model, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                var stuff = MapResponse(await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken), response.IsSuccessStatusCode);
+                return new BancardChargeResponse
+                {
+                    IsSuccessful = response.IsSuccessStatusCode,
+                    BancardResponse = stuff
+                };
+            }
             var responseBody = await response.Content.ReadAsAsync<ChargeResponseApiModel>(cancellationToken);
             var chargeResponse = new BancardChargeResponse
             {
-                Amount = responseBody.Operation.Amount,
-                Currency = responseBody.Operation.Amount,
-                Response = responseBody.Operation.Amount,
-                Token = responseBody.Operation.Amount,
-                AuthorizationNumber = responseBody.Operation.Amount,
-                ResponseCode = responseBody.Operation.Amount,
-                ResponseDescription = responseBody.Operation.Amount,
-                ResponseDetails = responseBody.Operation.Amount,
+                IsSuccessful = true,
+                Amount = responseBody.Confirmation.Amount,
+                Currency = responseBody.Confirmation.Currency,
+                Response = responseBody.Confirmation.Response,
+                Token = responseBody.Confirmation.Token,
+                AuthorizationNumber = responseBody.Confirmation.AuthorizationNumber,
+                ResponseCode = responseBody.Confirmation.ResponseCode,
+                ResponseDescription = responseBody.Confirmation.ResponseDescription,
+                ResponseDetails = responseBody.Confirmation.ResponseDetails,
                 SecurityInformation = new BancardSecurityInformation
                 {
-                    Version = responseBody.Operation.SecurityInformation.Version,
-                    CardCountry = responseBody.Operation.SecurityInformation.CardCountry,
-                    CardSource = responseBody.Operation.SecurityInformation.CardSource,
-                    CustomerIp = responseBody.Operation.SecurityInformation.CustomerIp,
-                    RiskIndex = responseBody.Operation.SecurityInformation.RiskIndex,
+                    Version = responseBody.Confirmation.SecurityInformation.Version,
+                    CardCountry = responseBody.Confirmation.SecurityInformation.CardCountry,
+                    CardSource = responseBody.Confirmation.SecurityInformation.CardSource,
+                    CustomerIp = responseBody.Confirmation.SecurityInformation.CustomerIp,
+                    RiskIndex = responseBody.Confirmation.SecurityInformation.RiskIndex,
                 },
-                TicketNumber = responseBody.Operation.Amount,
-                ExtendedResponseDescription = responseBody.Operation.ExtendedResponseDescription,
-                ShopProcessId = responseBody.Operation.ShopProcessId
+                TicketNumber = responseBody.Confirmation.TicketNumber,
+                ExtendedResponseDescription = responseBody.Confirmation.ExtendedResponseDescription,
+                ShopProcessId = responseBody.Confirmation.ShopProcessId
             };
             return chargeResponse;
         }
@@ -163,7 +173,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardResponse> SingleBuyRollback(string shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardResponse> SingleBuyRollback(int shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyRollbackApiModel>
             {
@@ -179,7 +189,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
 
-        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(string shopProcessId, CancellationToken cancellationToken = default)
+        public async Task<BancardConfirmationResponse> GetSingleBuyConfirmation(int shopProcessId, CancellationToken cancellationToken = default)
         {
             var model = new RequestApiModel<SingleBuyConfirmationApiModel>
             {
@@ -195,7 +205,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             var returnModel = new BancardConfirmationResponse
             {
                 IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody?.Status ?? "error",
+                Status = responseBody.Status ?? "error",
                 Messages = responseBody?.Messages?.Select(x => new BancardMessage
                 {
                     Key = x.Key,
@@ -204,23 +214,23 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                 }).ToList() ?? new List<BancardMessage>(),
                 Confirmation = new BancardConfirmationInfo
                 {
-                    Token = responseBody?.Confirmation?.Token ?? "",
-                    Amount = responseBody?.Confirmation?.Amount ?? 0,
-                    Currency = BancardCurrency.Parse(responseBody?.Confirmation?.Currency ?? "PYG"),
-                    Response = responseBody?.Confirmation?.Response ?? "",
-                    AuthorizationNumber = responseBody?.Confirmation?.AuthorizationNumber ?? "",
-                    ResponseCode = responseBody?.Confirmation?.ResponseCode ?? "",
-                    ResponseDescription = responseBody?.Confirmation?.ResponseDescription ?? "",
-                    ResponseDetails = responseBody?.Confirmation?.ResponseDetails ?? "",
-                    ExtentedResponseDescription = responseBody?.Confirmation?.ExtentedResponseDescription ?? "",
-                    ShopProcessId = responseBody?.Confirmation?.ShopProcessId ?? "",
+                    Token = responseBody?.Confirmation.Token ?? "",
+                    Amount = responseBody?.Confirmation.Amount ?? "",
+                    Currency = BancardCurrency.Parse(responseBody?.Confirmation.Currency ?? "PYG"),
+                    Response = responseBody?.Confirmation.Response ?? "",
+                    AuthorizationNumber = responseBody?.Confirmation.AuthorizationNumber ?? "",
+                    ResponseCode = responseBody?.Confirmation.ResponseCode ?? "",
+                    ResponseDescription = responseBody?.Confirmation.ResponseDescription ?? "",
+                    ResponseDetails = responseBody?.Confirmation.ResponseDetails ?? "",
+                    ExtentedResponseDescription = responseBody?.Confirmation.ExtentedResponseDescription ?? "",
+                    ShopProcessId = responseBody?.Confirmation.ShopProcessId ?? 0,
                     SecurityInformation = new BancardSecurityInformation
                     {
-                        Version = responseBody?.Confirmation?.SecurityInformation?.Version ?? "",
-                        CardCountry = responseBody?.Confirmation?.SecurityInformation?.CardCountry ?? "",
-                        CardSource = responseBody?.Confirmation?.SecurityInformation?.CardSource ?? "",
-                        CustomerIp = responseBody?.Confirmation?.SecurityInformation?.CustomerIp ?? "",
-                        RiskIndex = responseBody?.Confirmation?.SecurityInformation?.RiskIndex ?? ""
+                        Version = responseBody?.Confirmation.SecurityInformation.Version ?? "",
+                        CardCountry = responseBody?.Confirmation.SecurityInformation.CardCountry ?? "",
+                        CardSource = responseBody?.Confirmation.SecurityInformation.CardSource ?? "",
+                        CustomerIp = responseBody?.Confirmation.SecurityInformation.CustomerIp ?? "",
+                        RiskIndex = responseBody?.Confirmation.SecurityInformation.RiskIndex ?? 0
                     }
                 }
             };

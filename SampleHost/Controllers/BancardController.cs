@@ -17,7 +17,7 @@ namespace SampleHost.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BancardResponse>> SingleBuy([FromQuery] string shopProcessId, CancellationToken cancellationToken)
+        public async Task<ActionResult<BancardResponse>> SingleBuy([FromQuery] int shopProcessId, CancellationToken cancellationToken)
         {
             var request = new BancardSingleBuyRequest
             {
@@ -66,7 +66,7 @@ namespace SampleHost.Controllers
                 AdditionalData = "",
                 AliasToken = "226ad43de1e686ae554f886308b949bba9ac798a7d7da48f1548ccc9050f101f",
                 NumberOfPayments = 1,
-                ShopProcessId = "52"
+                ShopProcessId = 52
             };
             var response = await _vPosService.Charge(request, cancellationToken);
             return Ok(response);

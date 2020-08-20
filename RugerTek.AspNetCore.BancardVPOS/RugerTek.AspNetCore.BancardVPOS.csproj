@@ -7,14 +7,14 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Bancard VPOS 2.0</Title>
         <Authors>RugerTek, Andoni Zubizarreta</Authors>
-        <Copyright>2019</Copyright>
-        <PackageProjectUrl>https://github.com/andoni97/RugerTek.AspNetCore.BancardVPos</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/andoni97/RugerTek.AspNetCore.BancardVPos</RepositoryUrl>
+        <Copyright>2020</Copyright>
+        <PackageProjectUrl>https://github.com/RugerTek/RugerTek.AspNetCore.BancardVPos</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/RugerTek/RugerTek.AspNetCore.BancardVPos</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>bancard vpos vpos2.0 paraguay py</PackageTags>
-        <AssemblyVersion>1.0.4.0</AssemblyVersion>
-        <FileVersion>1.0.4.0</FileVersion>
-        <Version>1.0.4</Version>
+        <AssemblyVersion>1.0.7.0</AssemblyVersion>
+        <FileVersion>1.0.7.0</FileVersion>
+        <Version>1.0.7</Version>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 

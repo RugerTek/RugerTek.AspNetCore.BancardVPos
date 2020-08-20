@@ -5,7 +5,9 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
     internal class ChargeResponseApiModel
     {
-        [JsonPropertyName("operation"), JsonProperty("operation")]
-        public ChargeOperationResponseApiModel Operation { get; set; } = new ChargeOperationResponseApiModel();
+        [JsonPropertyName("status"), JsonProperty("status")]
+        public string Status { get; set; }
+        [JsonPropertyName("confirmation"), JsonProperty("confirmation")]
+        public ChargeOperationResponseApiModel Confirmation { get; set; } = new ChargeOperationResponseApiModel();
     }
 }

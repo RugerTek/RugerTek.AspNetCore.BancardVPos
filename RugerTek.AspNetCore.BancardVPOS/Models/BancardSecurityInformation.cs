@@ -14,6 +14,6 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models
         [JsonPropertyName("version"), JsonProperty("version")]
         public string Version { get; set; } = "";
         [JsonPropertyName("risk_index"), JsonProperty("risk_index")]
-        public string RiskIndex { get; set; } = "";
+        public int RiskIndex { get; set; }
     }
 }
