@@ -14,7 +14,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models
         [JsonPropertyName("response_details"), JsonProperty("response_details")]
         public string ResponseDetails { get; set; } = "";
         [JsonPropertyName("amount"), JsonProperty("amount")]
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         [JsonPropertyName("currency"), JsonProperty("currency")]
         public string Currency { get; set; } = "";
         [JsonPropertyName("authorization_number"), JsonProperty("authorization_number")]
@@ -24,7 +24,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models
         [JsonPropertyName("response_description"), JsonProperty("response_description")]
         public string ResponseDescription { get; set; } = "";
         [JsonPropertyName("extended_response_description"), JsonProperty("extended_response_description")]
-        public string ExtentedResponseDescription { get; set; } = "";
+        public string? ExtendedResponseDescription { get; set; }
         [JsonPropertyName("security_information"), JsonProperty("security_information")]
         public BancardSecurityInformation SecurityInformation { get; set; } = new BancardSecurityInformation();
     }

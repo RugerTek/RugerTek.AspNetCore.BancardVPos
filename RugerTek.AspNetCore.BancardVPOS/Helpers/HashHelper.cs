@@ -10,7 +10,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Helpers
             return CreateMd5($"{privateKey}{shopProcessId}{amount:F2}{currency}");
         }
 
-        public static string SingleBuyConfirm(string privateKey, int shopProcessId, double amount, string currency)
+        public static string SingleBuyConfirm(string privateKey, int shopProcessId, string amount, string currency)
         {
             return CreateMd5($"{privateKey}{shopProcessId}confirm{amount}{currency}");
         }
