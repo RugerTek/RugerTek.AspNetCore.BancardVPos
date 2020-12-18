@@ -25,6 +25,15 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
             };
             return _httpClient.SendAsync(request, cancellationToken);
         }
+        
+        public Task<HttpResponseMessage> ZimpleSingleBuy(RequestApiModel<ZimpleSingleBuyOperationApiModel> body, CancellationToken cancellationToken = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "/vpos/api/0.3/single_buy")
+            {
+                Content = new StringContent(JsonSerializer.Serialize(body))
+            };
+            return _httpClient.SendAsync(request, cancellationToken);
+        }
 
         public Task<HttpResponseMessage> CardsNew(RequestApiModel<CardsNewOperationApiModel> body, CancellationToken cancellationToken = default)
         {

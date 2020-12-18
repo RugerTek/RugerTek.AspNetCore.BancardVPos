@@ -47,6 +47,30 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
             return MapResponse(responseBody, response.IsSuccessStatusCode);
         }
+        
+        public async Task<BancardResponse> ZimpleSingleBuyAsync(BancardZimpleSingleBuyRequest request, CancellationToken cancellationToken = default)
+        {
+            var model = new RequestApiModel<ZimpleSingleBuyOperationApiModel>
+            {
+                PublicKey = _configuration.PublicKey,
+                Operation = new ZimpleSingleBuyOperationApiModel
+                {
+                    Token = HashHelper.SingleBuy(_configuration.PrivateKey, request.ShopProcessId, request.Amount, request.Currency.Value),
+                    Currency = request.Currency.Value,
+                    Amount = request.Amount.ToString("F2"),
+                    ShopProcessId = request.ShopProcessId,
+                    AdditionalData = request.AdditionalData,
+                    ReturnUrl = request.ReturnUrl,
+                    CancelUrl = request.CancelUrl,
+                    Description = request.Description,
+                    Zimple = "S"
+                }
+            };
+            
+            var response = await _httpClient.ZimpleSingleBuy(model, cancellationToken);
+            var responseBody = await response.Content.ReadAsAsync<ResponseApiModel>(cancellationToken);
+            return MapResponse(responseBody, response.IsSuccessStatusCode);
+        }
 
         public async Task<BancardResponse> CardsNew(BancardCardsNewRequest request, CancellationToken cancellationToken = default)
         {

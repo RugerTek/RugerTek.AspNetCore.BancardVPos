@@ -11,6 +11,9 @@ namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
         // Inicia el proceso de pago
         Task<BancardResponse> SingleBuyAsync(BancardSingleBuyRequest request, CancellationToken cancellationToken = default);
 
+        // Pago con Zimple
+        Task<BancardResponse> ZimpleSingleBuyAsync(BancardZimpleSingleBuyRequest request, CancellationToken cancellationToken = default);
+
         // Pago con token
         // Inicia el proceso de catastro de una tarjeta.
         Task<BancardResponse> CardsNew(BancardCardsNewRequest request, CancellationToken cancellationToken = default);

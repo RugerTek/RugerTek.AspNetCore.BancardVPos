@@ -8,6 +8,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.HttpClients
     internal interface IVPosHttpClient
     {
         Task<HttpResponseMessage> SingleBuy(RequestApiModel<SingleBuyOperationApiModel> body, CancellationToken cancellationToken = default);
+        Task<HttpResponseMessage> ZimpleSingleBuy(RequestApiModel<ZimpleSingleBuyOperationApiModel> body, CancellationToken cancellationToken = default);
         Task<HttpResponseMessage> CardsNew(RequestApiModel<CardsNewOperationApiModel> body, CancellationToken cancellationToken = default);
         Task<HttpResponseMessage> UsersCards(int userId, RequestApiModel<UsersCardsOperationApiModel> body, CancellationToken cancellationToken = default);
 
