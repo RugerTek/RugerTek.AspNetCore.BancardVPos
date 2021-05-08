@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class ZimpleSingleBuyOperationApiModel
+    internal class ZimpleSingleBuyOperationApiModel
     {
         [JsonPropertyName("token"), JsonProperty("token")]
         public string Token { get; set; } = "";
