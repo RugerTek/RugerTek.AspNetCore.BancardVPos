@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    public class CardApiModel
+    internal class CardApiModel
     {
         [JsonPropertyName("expiration_date"), JsonProperty("expiration_date")]
         public string ExpirationDate { get; set; } = "";
