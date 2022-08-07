@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -229,32 +228,32 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
             var returnModel = new BancardConfirmationResponse
             {
                 IsSuccessStatusCode = response.IsSuccessStatusCode,
-                Status = responseBody.Status ?? "error",
-                Messages = responseBody?.Messages?.Select(x => new BancardMessage
+                Status = responseBody.Status,
+                Messages = responseBody.Messages.Select(x => new BancardMessage
                 {
                     Key = x.Key,
                     Level = x.Level,
                     Description = x.Dsc
-                }).ToList() ?? new List<BancardMessage>(),
+                }).ToList(),
                 Confirmation = new BancardConfirmationInfo
                 {
-                    Token = responseBody?.Confirmation.Token ?? "",
-                    Amount = responseBody?.Confirmation.Amount ?? "",
-                    Currency = BancardCurrency.Parse(responseBody?.Confirmation.Currency ?? "PYG"),
-                    Response = responseBody?.Confirmation.Response ?? "",
-                    AuthorizationNumber = responseBody?.Confirmation.AuthorizationNumber ?? "",
-                    ResponseCode = responseBody?.Confirmation.ResponseCode ?? "",
-                    ResponseDescription = responseBody?.Confirmation.ResponseDescription ?? "",
-                    ResponseDetails = responseBody?.Confirmation.ResponseDetails ?? "",
-                    ExtentedResponseDescription = responseBody?.Confirmation.ExtentedResponseDescription ?? "",
-                    ShopProcessId = responseBody?.Confirmation.ShopProcessId ?? 0,
+                    Token = responseBody.Confirmation.Token,
+                    Amount = responseBody.Confirmation.Amount,
+                    Currency = BancardCurrency.Parse(responseBody.Confirmation.Currency),
+                    Response = responseBody.Confirmation.Response,
+                    AuthorizationNumber = responseBody.Confirmation.AuthorizationNumber,
+                    ResponseCode = responseBody.Confirmation.ResponseCode,
+                    ResponseDescription = responseBody.Confirmation.ResponseDescription,
+                    ResponseDetails = responseBody.Confirmation.ResponseDetails,
+                    ExtentedResponseDescription = responseBody.Confirmation.ExtentedResponseDescription,
+                    ShopProcessId = responseBody.Confirmation.ShopProcessId,
                     SecurityInformation = new BancardSecurityInformation
                     {
-                        Version = responseBody?.Confirmation.SecurityInformation.Version ?? "",
-                        CardCountry = responseBody?.Confirmation.SecurityInformation.CardCountry ?? "",
-                        CardSource = responseBody?.Confirmation.SecurityInformation.CardSource ?? "",
-                        CustomerIp = responseBody?.Confirmation.SecurityInformation.CustomerIp ?? "",
-                        RiskIndex = responseBody?.Confirmation.SecurityInformation.RiskIndex ?? 0
+                        Version = responseBody.Confirmation.SecurityInformation.Version,
+                        CardCountry = responseBody.Confirmation.SecurityInformation.CardCountry,
+                        CardSource = responseBody.Confirmation.SecurityInformation.CardSource,
+                        CustomerIp = responseBody.Confirmation.SecurityInformation.CustomerIp,
+                        RiskIndex = responseBody.Confirmation.SecurityInformation.RiskIndex
                     }
                 }
             };
@@ -266,7 +265,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
         {
             return Task.Run(() => 
                 request.Operation.Token == HashHelper.SingleBuyConfirm(_configuration.PrivateKey, 
-                    request.Operation.ShopProcessId, request.Operation.Amount, request.Operation.Currency));
+                    request.Operation.ShopProcessId, request.Operation.Amount ?? "0", request.Operation.Currency ?? "PYG"));
         }
 
         private static BancardResponse MapResponse(ResponseApiModel apiModel, bool isSuccessStatusCode)
