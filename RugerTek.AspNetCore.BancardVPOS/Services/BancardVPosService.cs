@@ -253,7 +253,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Services
                         CardCountry = responseBody.Confirmation.SecurityInformation.CardCountry,
                         CardSource = responseBody.Confirmation.SecurityInformation.CardSource,
                         CustomerIp = responseBody.Confirmation.SecurityInformation.CustomerIp,
-                        RiskIndex = responseBody.Confirmation.SecurityInformation.RiskIndex
+                        RiskIndex = int.TryParse(responseBody.Confirmation.SecurityInformation.RiskIndex, out var riskIndex) ? riskIndex : 0,
                     }
                 }
             };

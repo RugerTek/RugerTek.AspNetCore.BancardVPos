@@ -39,7 +39,7 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
         public string ResponseDescription { get; set; } = "";
 
         [JsonPropertyName("security_information"), JsonProperty("security_information")]
-        public SecurityInformationApiModel SecurityInformation { get; set; } = new SecurityInformationApiModel();
+        public SecurityInformationChargeApiModel SecurityInformation { get; set; } = new SecurityInformationChargeApiModel();
 
     }
 }

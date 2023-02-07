@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
 {
-    internal class SecurityInformationApiModel
+    internal class SecurityInformationChargeApiModel
     {
         [JsonPropertyName("card_source"), JsonProperty("card_source")]
         public string CardSource { get; set; } = "";
@@ -14,6 +14,6 @@ namespace RugerTek.AspNetCore.BancardVPOS.Models.Api
         [JsonPropertyName("version"), JsonProperty("version")]
         public string Version { get; set; } = "";
         [JsonPropertyName("risk_index"), JsonProperty("risk_index")]
-        public string RiskIndex { get; set; }
+        public int RiskIndex { get; set; }
     }
 }

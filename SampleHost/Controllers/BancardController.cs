@@ -7,7 +7,8 @@ using RugerTek.AspNetCore.BancardVPOS.Models;
 
 namespace SampleHost.Controllers
 {
-    public class BancardController : Controller
+    [ApiController, Route("/api/[controller]")]
+    public class BancardController : ControllerBase
     {
         private readonly IBancardVPos _vPosService;
 
@@ -16,8 +17,15 @@ namespace SampleHost.Controllers
             _vPosService = vPosService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<BancardResponse>> SingleBuy([FromQuery] int shopProcessId, CancellationToken cancellationToken)
+        [HttpPost("confirmation/{id:int}")]
+        public async Task<ActionResult<BancardResponse>> GetConfirmation(int id, CancellationToken cancellationToken)
+        {
+            var response = await _vPosService.GetSingleBuyConfirmation(id, cancellationToken);
+            return Ok(response);
+        }
+        
+        [HttpPost("single-buy/{shopProcessId:int}")]
+        public async Task<ActionResult<BancardResponse>> SingleBuy(int shopProcessId, CancellationToken cancellationToken)
         {
             var request = new BancardSingleBuyRequest
             {
@@ -32,7 +40,7 @@ namespace SampleHost.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("cards-new")]
         public async Task<ActionResult<BancardResponse>> CardsNew(CancellationToken cancellationToken)
         {
             var request = new BancardCardsNewRequest
@@ -48,14 +56,14 @@ namespace SampleHost.Controllers
             return Ok(response);
         }
         
-        [HttpPost]
+        [HttpPost("users-card")]
         public async Task<ActionResult<BancardResponse>> UsersCard(CancellationToken cancellationToken)
         {
             var response = await _vPosService.UsersCard(1, cancellationToken);
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("charge")]
         public async Task<ActionResult<BancardResponse>> Charge(CancellationToken cancellationToken)
         {
             var request = new BancardChargeRequest
@@ -64,9 +72,9 @@ namespace SampleHost.Controllers
                 Currency = BancardCurrency.Guarani,
                 Description = "Prueba de cobro con token",
                 AdditionalData = "",
-                AliasToken = "226ad43de1e686ae554f886308b949bba9ac798a7d7da48f1548ccc9050f101f",
+                AliasToken = "",
                 NumberOfPayments = 1,
-                ShopProcessId = 52
+                ShopProcessId = 194
             };
             var response = await _vPosService.Charge(request, cancellationToken);
             return Ok(response);
