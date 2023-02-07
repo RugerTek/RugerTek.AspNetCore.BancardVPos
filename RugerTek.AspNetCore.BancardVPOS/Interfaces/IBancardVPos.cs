@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using RugerTek.AspNetCore.BancardVPOS.Models;
-using RugerTek.AspNetCore.BancardVPOS.Models.Api;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Interfaces
 {

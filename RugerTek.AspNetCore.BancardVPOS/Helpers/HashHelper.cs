@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace RugerTek.AspNetCore.BancardVPOS.Helpers

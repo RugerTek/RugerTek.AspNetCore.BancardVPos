@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using Microsoft.Extensions.DependencyInjection;
 using RugerTek.AspNetCore.BancardVPOS.Configurations;
 using RugerTek.AspNetCore.BancardVPOS.HttpClients;
